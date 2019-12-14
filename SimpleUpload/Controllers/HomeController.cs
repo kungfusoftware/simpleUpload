@@ -85,13 +85,14 @@ namespace SimpleUpload.Controllers
                     CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
 
                     // Create a container called 'uploadblob' and append a GUID value to it to make the name unique. 
-                    cloudBlobContainer = cloudBlobClient.GetContainerReference("uploadblob" + Guid.NewGuid().ToString());
-                    await cloudBlobContainer.CreateAsync();
+                    cloudBlobContainer = cloudBlobClient.GetContainerReference("ehbs");
+
+                    await cloudBlobContainer.CreateIfNotExistsAsync();
 
                     // Set the permissions so the blobs are public. 
                     BlobContainerPermissions permissions = new BlobContainerPermissions
                     {
-                        PublicAccess = BlobContainerPublicAccessType.Blob
+                        PublicAccess = BlobContainerPublicAccessType.Off
                     };
                     await cloudBlobContainer.SetPermissionsAsync(permissions);
 
